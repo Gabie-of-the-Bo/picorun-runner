@@ -21,7 +21,7 @@ async fn main() -> std::io::Result<()> {
             .route("python/write-code", web::post().to(write_code_python))
             .route("python/execute", web::get().to(execute_python))
     })
-    .bind(("localhost", 5000))?
+    .bind(("0.0.0.0", 5000))?
     .run()
     .await
 }

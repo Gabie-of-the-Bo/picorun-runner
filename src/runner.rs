@@ -9,7 +9,7 @@ pub enum Language{
 }
 
 fn run_python(timeout: u64) -> Result<String, String>{
-    let mut child = Command::new("python").args(&["environments/python/execution.py"])
+    let mut child = Command::new("python3").args(&["environments/python/execution.py"])
                                           .spawn()
                                           .expect("Error executing Python command");
 

@@ -5,14 +5,9 @@ pub fn preproc_python_code(code: &str) -> String{
 }
 
 pub fn preproc_python_execution(code: &str) -> String{
-    let imports = "import os
-from preparation import *
+    let imports = "from preparation import *
 from code import *
-CURR_PATH = os.path.dirname(os.path.abspath(__file__))";
+from utils import *";
 
-    let out_function = "def write_output(output):
-    with open(f'{CURR_PATH}/output.out', 'w') as out:
-        out.write(output)";
-
-    return format!("{}\n\n{}\n\n{}", imports, out_function, code);
+    return format!("{}\n\n{}", imports, code);
 }

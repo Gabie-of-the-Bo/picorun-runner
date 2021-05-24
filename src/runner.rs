@@ -18,7 +18,7 @@ pub enum Language{
 }
 
 fn run_python(timeout: u64) -> Result<ProgramOutput, ProgramOutput>{
-    let mut child = Command::new("python").args(&["environments/python/execution.py"])
+    let mut child = Command::new("python3").args(&["environments/python/execution.py"])
                                           .stdout(Stdio::piped())
                                           .stderr(Stdio::piped()) 
                                           .spawn()

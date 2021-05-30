@@ -10,7 +10,8 @@ use serde_json;
 #[derive(Serialize, Deserialize)]
 pub struct ProgramOutput {
     output: String,
-    logs: String
+    stdout: String,
+    stderr: String
 }
 
 pub enum Language{
@@ -31,17 +32,21 @@ fn run_python(timeout: u64) -> Result<ProgramOutput, ProgramOutput>{
 
             if exit_code.success(){
                 let output = fs::read_to_string("environments/python/output.out").expect("Error while reading output file");
+                
                 return Ok(ProgramOutput{
                     output: output,
-                    logs: logs
+                    stdout: logs,
+                    stderr: String::new()
                 });
 
             } else{
-                let mut output = String::new();
-                child.stderr.unwrap().read_to_string(&mut output).expect("Error while reading stderr");
+                let mut err = String::new();
+                child.stderr.unwrap().read_to_string(&mut err).expect("Error while reading stderr");
+
                 return Err(ProgramOutput{
-                    output: output,
-                    logs: logs
+                    output: String::new(),
+                    stdout: logs,
+                    stderr: err
                 });
             }
         },
@@ -50,8 +55,9 @@ fn run_python(timeout: u64) -> Result<ProgramOutput, ProgramOutput>{
             child.kill().unwrap();
 
             Err(ProgramOutput{
-                output: format!("Timeout: the program did not finish in {} seconds", timeout),
-                logs: String::new()
+                output: String::new(),
+                stdout: String::new(),
+                stderr: format!("Timeout: the program did not finish in {} seconds", timeout)
             })
         }
     };

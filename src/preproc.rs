@@ -1,5 +1,6 @@
 pub fn preproc_python_code(code: &str) -> String{
-    let prep_import = "from preparation import *";
+    let prep_import = "from preparation import *
+from typing import *";
 
     return format!("{}\n\n{}", prep_import, code);
 }
